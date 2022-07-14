@@ -12,9 +12,7 @@
       </el-form-item>
       <el-form-item>
         <span class="svg-container">
-          <span class="svg-container">
-            <svg-icon icon="password"></svg-icon>
-          </span>
+          <svg-icon icon="password"></svg-icon>
         </span>
         <el-input placeholder="password" name="password" type="text"></el-input>
         <span class="show-pwd">
