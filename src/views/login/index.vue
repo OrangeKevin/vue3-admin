@@ -1,32 +1,71 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form">
+    <el-form class="login-form" :model="loginForm" :rules="loginRules">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
-      <el-form-item>
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon="user"></svg-icon>
         </span>
-        <el-input placeholder="username" name="username" type="text"></el-input>
+        <el-input
+          placeholder="username"
+          name="username"
+          type="text"
+          v-model="loginForm.username"
+        ></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon="password"></svg-icon>
         </span>
-        <el-input placeholder="password" name="password" type="text"></el-input>
+        <el-input
+          placeholder="password"
+          name="password"
+          :type="passwordType ? 'password' : 'text'"
+          v-model="loginForm.password"
+        ></el-input>
         <span class="show-pwd">
-          <span class="svg-container">
-            <svg-icon icon="eye"></svg-icon>
+          <span class="svg-container" @click="onChangePwdType">
+            <svg-icon :icon="passwordType ? 'eye' : 'eye-open'"></svg-icon>
           </span>
         </span>
       </el-form-item>
-      <el-button type="primary" style="width: 100%; margin-bottom: 30px">登录</el-button>
+      <el-button type="primary" style="width: 100%; margin-bottom: 30px"
+        >登录</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { validatorPassword } from './rules'
+const loginForm = ref({
+  username: 'super-admin',
+  password: '123456'
+})
+// 验证规则
+const loginRules = ref({
+  username: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '用户名为空'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      validator: validatorPassword()
+    }
+  ]
+})
+const passwordType = ref(false)
+const onChangePwdType = () => {
+  passwordType.value = !passwordType.value
+}
 // import { Avatar } from '@element-plus/icons'
 </script>
 
@@ -57,7 +96,7 @@ $cursor: #fff;
       color: #454545;
     }
 
-    :deep(.el-input){
+    :deep(.el-input) {
       display: inline-block;
       height: 47px;
       width: 85%;
@@ -97,7 +136,6 @@ $cursor: #fff;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
