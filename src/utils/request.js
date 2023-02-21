@@ -7,6 +7,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000
 })
+// 请求拦截器
 service.interceptors.request.use(
   (config) => {
     const { icode, time } = getTestICode()
@@ -30,7 +31,7 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-
+// 响应拦截器
 service.interceptors.response.use(
   response => {
     const { success, message, data } = response.data
